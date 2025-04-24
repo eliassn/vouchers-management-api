@@ -13,6 +13,8 @@ import {
 
 import { isAuthenticated, isAdmin } from '../middlewares/authMiddleware.js'
 
+const router = express.Router()
+
 /**
  * @swagger
  * tags:
@@ -45,8 +47,7 @@ import { isAuthenticated, isAdmin } from '../middlewares/authMiddleware.js'
  *         required: true
  *         schema:
  *           type: string
- *           default: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
- *         description: Example Bearer token. Use a valid token to access this route.
+ *           default: Bearer <your_token_here>
  *     requestBody:
  *       required: true
  *       content:
@@ -90,14 +91,13 @@ import { isAuthenticated, isAdmin } from '../middlewares/authMiddleware.js'
  *         required: true
  *         schema:
  *           type: string
- *           default: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
- *         description: Example Bearer token. Use a valid token to access this route.
+ *           default: Bearer <your_token_here>
  *       - in: path
  *         name: id
  *         required: true
- *         description: Voucher ID
  *         schema:
  *           type: string
+ *         description: Voucher ID
  *     requestBody:
  *       required: true
  *       content:
@@ -135,14 +135,13 @@ import { isAuthenticated, isAdmin } from '../middlewares/authMiddleware.js'
  *         required: true
  *         schema:
  *           type: string
- *           default: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
- *         description: Example Bearer token. Use a valid token to access this route.
+ *           default: Bearer <your_token_here>
  *       - in: path
  *         name: id
  *         required: true
- *         description: Voucher ID
  *         schema:
  *           type: string
+ *         description: Voucher ID
  *     responses:
  *       200:
  *         description: Voucher deleted
@@ -162,8 +161,7 @@ import { isAuthenticated, isAdmin } from '../middlewares/authMiddleware.js'
  *         required: true
  *         schema:
  *           type: string
- *           default: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
- *         description: Example Bearer token. Use a valid token to access this route.
+ *           default: Bearer <your_token_here>
  *     requestBody:
  *       required: true
  *       content:
@@ -172,12 +170,10 @@ import { isAuthenticated, isAdmin } from '../middlewares/authMiddleware.js'
  *             type: object
  *             required:
  *               - voucherId
+ *               - userId
  *             properties:
  *               voucherId:
  *                 type: string
- *              required:
- *               - userId
- *             properties:
  *               userId:
  *                 type: string
  *     responses:
@@ -199,8 +195,7 @@ import { isAuthenticated, isAdmin } from '../middlewares/authMiddleware.js'
  *         required: true
  *         schema:
  *           type: string
- *           default: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
- *         description: Example Bearer token. Use a valid token to access this route.
+ *           default: Bearer <your_token_here>
  *     requestBody:
  *       required: true
  *       content:
@@ -209,25 +204,22 @@ import { isAuthenticated, isAdmin } from '../middlewares/authMiddleware.js'
  *             type: object
  *             required:
  *               - voucherId
+ *               - userId
  *             properties:
  *               voucherId:
+ *                 type: string
+ *               userId:
  *                 type: string
  *     responses:
  *       200:
  *         description: Voucher redeemed
  */
 
-const router = express.Router()
-
-// Public
+// Routes
 router.get('/', getAvailableVouchersController)
-
-// Admin-only
 router.post('/', isAuthenticated, isAdmin, createVoucherController)
 router.put('/:id', isAuthenticated, isAdmin, updateVoucherController)
 router.delete('/:id', isAuthenticated, isAdmin, deleteVoucherController)
-
-// Authenticated users
 router.post('/purchase', isAuthenticated, purchaseVoucherController)
 router.post('/redeem', isAuthenticated, redeemVoucherController)
 
