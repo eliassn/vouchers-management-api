@@ -175,6 +175,11 @@ import { isAuthenticated, isAdmin } from '../middlewares/authMiddleware.js'
  *             properties:
  *               voucherId:
  *                 type: string
+ *              required:
+ *               - userId
+ *             properties:
+ *               userId:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Voucher purchased
